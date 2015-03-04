@@ -4,12 +4,12 @@ directory <- 'c:/r_course/EDA/'
 setwd(directory)
 
 # open the power consumption file 
+# read the header for the column names
+colnames <- strsplit(readLines('household_power_consumption.txt',1),';')
 # start reading around the beginning of February 2007 and skip the rest
 data<-read.csv('household_power_consumption.txt', header=FALSE, sep=';', 
-               na.strings='?',skip=6e4, nrows=1e4, col.names=c('Date','Time',
-                                                               'Global_active_power','Global_reactive_power','Voltage',
-                                                               'Global_intensity','Sub_metering_1','Sub_metering_2','Sub_metering_3'))
-
+               na.strings='?',skip=6e4, nrows=1e4, col.names=colnames
+                 
 # convert dates and times
 data$DateTime <- strptime(paste(data$Date, data$Time), format="%d/%m/%Y %H:%M:%S")
 data$Date <- as.Date(data$Date, format="%d/%m/%Y")
